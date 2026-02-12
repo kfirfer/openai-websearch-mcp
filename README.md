@@ -13,7 +13,7 @@ An advanced MCP server that provides intelligent web search capabilities using O
 - **⚡ Smart Effort Control**: Intelligent `reasoning_effort` defaults based on use case
 - **🔄 Multi-Mode Search**: Fast iterations with gpt-5-mini or deep research with gpt-5
 - **🌍 Localized Results**: Support for location-based search customization
-- **📝 Rich Descriptions**: Complete parameter documentation for easy integration
+- **🔗 Live Web Search**: Real-time web data with sourced citations via OpenAI's `web_search` tool
 - **🔧 Flexible Configuration**: Environment variable support for easy deployment
 
 ## 🚀 Quick Start
@@ -105,10 +105,9 @@ Intelligent web search with reasoning model support.
 | Parameter | Type | Description | Default |
 |-----------|------|-------------|---------|
 | `input` | `string` | The search query or question to search for | *Required* |
-| `model` | `string` | AI model to use. Supports gpt-4o, gpt-4o-mini, gpt-5, gpt-5-mini, gpt-5-nano, o3, o4-mini | `gpt-5-mini` |
+| `model` | `string` | AI model to use. Supports gpt-4o, gpt-4o-mini, gpt-5, gpt-5-mini, gpt-5-nano, o3, o4-mini | `gpt-4o` (or `OPENAI_DEFAULT_MODEL`) |
 | `reasoning_effort` | `string` | Reasoning effort level: low, medium, high, minimal | Smart default |
-| `type` | `string` | Web search API version | `web_search_preview` |
-| `search_context_size` | `string` | Context amount: low, medium, high | `medium` |
+| `search_context_size` | `string` | Web context amount: low, medium, high | `medium` |
 | `user_location` | `object` | Optional location for localized results | `null` |
 
 ## 💬 Usage Examples
@@ -118,7 +117,7 @@ Once configured, simply ask your AI assistant to search for information using na
 ### Quick Search
 > "Search for the latest developments in AI reasoning models using openai_web_search"
 
-### Deep Research  
+### Deep Research
 > "Use openai_web_search with gpt-5 and high reasoning effort to provide a comprehensive analysis of quantum computing breakthroughs"
 
 ### Localized Search
@@ -198,9 +197,6 @@ cd openai-websearch-mcp
 # Create virtual environment and install dependencies
 uv sync
 
-# Run tests
-uv run python -m pytest
-
 # Install in development mode
 uv pip install -e .
 ```
@@ -210,7 +206,9 @@ uv pip install -e .
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `OPENAI_API_KEY` | Your OpenAI API key | *Required* |
-| `OPENAI_DEFAULT_MODEL` | Default model to use | `gpt-5-mini` |
+| `OPENAI_DEFAULT_MODEL` | Default model to use | First allowed model (`gpt-4o`) |
+| `OPENAI_MODELS` | Comma-separated list of allowed models | See DEFAULT_MODELS |
+| `OPENAI_REASONING_MODELS` | Comma-separated list of reasoning models | See DEFAULT_REASONING_MODELS |
 
 ## 🐛 Debugging
 
@@ -231,6 +229,14 @@ npx @modelcontextprotocol/inspector python -m openai_websearch_mcp
 
 **Issue**: "No module named 'openai_websearch_mcp'"
 **Solution**: Ensure you've installed the package correctly and your Python path includes the package location.
+
+## 🔄 Changelog
+
+### v0.5.0
+
+- **Upgraded to GA `web_search` tool** — replaces `web_search_preview` with the generally available `web_search` tool in the Responses API
+- **Removed `type` parameter** — no longer needed since we use the GA `web_search` tool
+- **Cleaned up imports** — removed duplicate imports, added `from __future__ import annotations`
 
 ## 📄 License
 
