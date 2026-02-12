@@ -93,6 +93,9 @@ def openai_web_search(
         "model": model,
         "tools": [tool],
         "input": input,
+        "instructions": "Search the web thoroughly and provide comprehensive, well-sourced answers. "
+                        "Include relevant details, data points, and multiple perspectives where applicable. "
+                        "Always cite your sources with URLs.",
     }
 
     # Set reasoning effort for reasoning models
