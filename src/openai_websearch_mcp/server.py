@@ -54,7 +54,7 @@ def openai_web_search(
     model: Annotated[Optional[str],
                      Field(description="AI model to use. Defaults to OPENAI_DEFAULT_MODEL env var or first allowed model")] = None,
     reasoning_effort: Annotated[Optional[Literal["low", "medium", "high"]],
-                                Field(description="Reasoning effort level for supported models. Default: medium")] = None,
+                                Field(description="Reasoning effort level for supported models. Default: low")] = None,
     search_context_size: Annotated[Literal["low", "medium", "high"],
                                    Field(description="Amount of web context to retrieve: low (fast), medium (balanced), high (comprehensive)")] = "medium",
     user_location: Annotated[Optional[UserLocation],
@@ -102,7 +102,7 @@ def openai_web_search(
     # Priority: env var override > per-request param > per-model default
     if model in reasoning_models:
         if reasoning_effort is None:
-            reasoning_effort = "medium"
+            reasoning_effort = "low"
         request_params["reasoning"] = {"effort": reasoning_effort}
 
     response = client.responses.create(**request_params)
