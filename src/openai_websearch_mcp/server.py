@@ -11,6 +11,23 @@ mcp = FastMCP(
     instructions="This MCP server provides access to OpenAI's websearch functionality through the Model Context Protocol."
 )
 
+DEFAULT_MODELS = ["gpt-4o", "gpt-4o-mini", "gpt-5", "gpt-5-mini", "gpt-5-nano", "o3", "o4-mini"]
+DEFAULT_REASONING_MODELS = ["gpt-5", "gpt-5-mini", "gpt-5-nano", "o3", "o4-mini"]
+
+
+def _get_models() -> list[str]:
+    env = os.getenv("OPENAI_MODELS")
+    if env:
+        return [m.strip() for m in env.split(",") if m.strip()]
+    return DEFAULT_MODELS
+
+
+def _get_reasoning_models() -> list[str]:
+    env = os.getenv("OPENAI_REASONING_MODELS")
+    if env:
+        return [m.strip() for m in env.split(",") if m.strip()]
+    return DEFAULT_REASONING_MODELS
+
 class UserLocation(BaseModel):
     type: Literal["approximate"] = "approximate"
     city: str
@@ -32,7 +49,7 @@ Supports: gpt-4o (no reasoning), gpt-5/gpt-5-mini/gpt-5-nano, o3/o4-mini (with r
 )
 def openai_web_search(
     input: Annotated[str, Field(description="The search query or question to search for")],
-    model: Annotated[Optional[Literal["gpt-4o", "gpt-4o-mini", "gpt-5", "gpt-5-mini", "gpt-5-nano", "o3", "o4-mini"]], 
+    model: Annotated[Optional[str],
                      Field(description="AI model to use. Defaults to OPENAI_DEFAULT_MODEL env var or gpt-5-mini")] = None,
     reasoning_effort: Annotated[Optional[Literal["low", "medium", "high", "minimal"]], 
                                 Field(description="Reasoning effort level for supported models (gpt-5, o3, o4-mini). Default: low for gpt-5-mini, medium for others")] = None,
@@ -43,16 +60,18 @@ def openai_web_search(
     user_location: Annotated[Optional[UserLocation], 
                             Field(description="Optional user location for localized search results")] = None,
 ) -> str:
-    # 从环境变量读取默认模型，如果没有则使用 gpt-5-mini
     if model is None:
         model = os.getenv("OPENAI_DEFAULT_MODEL", "gpt-5-mini")
-    
+
+    allowed_models = _get_models()
+    if model not in allowed_models:
+        return f"Error: model '{model}' is not in the allowed models list: {allowed_models}"
+
     client = OpenAI()
+
+    reasoning_models = _get_reasoning_models()
     
-    # 判断是否为推理模型
-    reasoning_models = ["gpt-5", "gpt-5-mini", "gpt-5-nano", "o3", "o4-mini"]
-    
-    # 构建请求参数
+    # Build request params
     request_params = {
         "model": model,
         "tools": [
@@ -65,14 +84,14 @@ def openai_web_search(
         "input": input,
     }
     
-    # 对推理模型设置智能默认值
+    # Set smart defaults for reasoning models
     if model in reasoning_models:
         if reasoning_effort is None:
-            # gpt-5-mini 默认使用 low，其他推理模型默认 medium
+
             if model == "gpt-5-mini":
-                reasoning_effort = "low"  # 快速搜索
+                reasoning_effort = "low"
             else:
-                reasoning_effort = "medium"  # 深度研究
+                reasoning_effort = "medium"
         request_params["reasoning"] = {"effort": reasoning_effort}
     
     response = client.responses.create(**request_params)
