@@ -61,7 +61,8 @@ def openai_web_search(
                             Field(description="Optional user location for localized search results")] = None,
 ) -> str:
     if model is None:
-        model = os.getenv("OPENAI_DEFAULT_MODEL", "gpt-5-mini")
+        allowed = _get_models()
+        model = os.getenv("OPENAI_DEFAULT_MODEL", allowed[0])
 
     allowed_models = _get_models()
     if model not in allowed_models:
