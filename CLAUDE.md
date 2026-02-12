@@ -36,6 +36,6 @@ The codebase is minimal — four Python modules under `src/openai_websearch_mcp/
 - **Python**: >=3.10
 - **API**: OpenAI Responses API (`client.responses.create()`) with `web_search` tool (GA)
 - **Entry points** (defined in `pyproject.toml`): `openai-websearch-mcp` (server), `openai-websearch-mcp-install` (CLI installer)
-- **Environment variables**: `OPENAI_API_KEY` (required), `OPENAI_DEFAULT_MODEL` (optional, defaults to first allowed model), `OPENAI_MODELS` (optional, comma-separated allowed models), `OPENAI_REASONING_MODELS` (optional, comma-separated reasoning models)
+- **Environment variables**: `OPENAI_API_KEY` (required), `OPENAI_DEFAULT_MODEL` (optional, defaults to first allowed model), `OPENAI_MODELS` (optional, comma-separated allowed models), `OPENAI_REASONING_MODELS` (optional, comma-separated reasoning models), `OPENAI_REASONING_EFFORT` (optional, overrides reasoning effort for all requests), `OPENAI_SEARCH_CONTEXT_SIZE` (optional, overrides search context size for all requests)
 - **Supported models**: gpt-4o, gpt-4o-mini (no reasoning); gpt-5, gpt-5-mini, gpt-5-nano, o3, o4-mini (with reasoning)
 - **Pydantic v2** is used for data models — `UserLocation` uses `TimeZoneName` from `pydantic_extra_types`

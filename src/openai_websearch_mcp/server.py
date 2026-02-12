@@ -96,7 +96,8 @@ def openai_web_search(
         "input": input,
     }
 
-    # Set smart defaults for reasoning models
+    # Set reasoning effort for reasoning models
+    # Priority: env var override > per-request param > per-model default
     if model in reasoning_models:
         if reasoning_effort is None:
             if model == "gpt-5-mini":

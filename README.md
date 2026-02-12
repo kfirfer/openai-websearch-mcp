@@ -209,6 +209,8 @@ uv pip install -e .
 | `OPENAI_DEFAULT_MODEL` | Default model to use | First allowed model (`gpt-4o`) |
 | `OPENAI_MODELS` | Comma-separated list of allowed models | See DEFAULT_MODELS |
 | `OPENAI_REASONING_MODELS` | Comma-separated list of reasoning models | See DEFAULT_REASONING_MODELS |
+| `OPENAI_REASONING_EFFORT` | Override reasoning effort for all requests (`low`, `medium`, `high`, `minimal`) | Per-model default |
+| `OPENAI_SEARCH_CONTEXT_SIZE` | Override search context size for all requests (`low`, `medium`, `high`) | `medium` |
 
 ## 🐛 Debugging
 
