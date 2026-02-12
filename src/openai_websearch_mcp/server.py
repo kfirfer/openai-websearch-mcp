@@ -53,7 +53,7 @@ def openai_web_search(
     input: Annotated[str, Field(description="The search query or question to search for")],
     model: Annotated[Optional[str],
                      Field(description="AI model to use. Defaults to OPENAI_DEFAULT_MODEL env var or first allowed model")] = None,
-    reasoning_effort: Annotated[Optional[Literal["low", "medium", "high", "minimal"]],
+    reasoning_effort: Annotated[Optional[Literal["low", "medium", "high"]],
                                 Field(description="Reasoning effort level for supported models. Default: medium")] = None,
     search_context_size: Annotated[Literal["low", "medium", "high"],
                                    Field(description="Amount of web context to retrieve: low (fast), medium (balanced), high (comprehensive)")] = "medium",
@@ -77,7 +77,7 @@ def openai_web_search(
         search_context_size = env_context_size
 
     env_reasoning = os.getenv("OPENAI_REASONING_EFFORT")
-    if env_reasoning and env_reasoning in ("low", "medium", "high", "minimal"):
+    if env_reasoning and env_reasoning in ("low", "medium", "high"):
         reasoning_effort = env_reasoning
 
     # Build web search tool
