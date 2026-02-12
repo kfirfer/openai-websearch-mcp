@@ -25,7 +25,7 @@ def _get_models() -> list[str]:
 
 def _get_reasoning_models() -> list[str]:
     env = os.getenv("OPENAI_REASONING_MODELS")
-    if env:
+    if env is not None:
         return [m.strip() for m in env.split(",") if m.strip()]
     return DEFAULT_REASONING_MODELS
 
