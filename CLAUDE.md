@@ -25,7 +25,7 @@ No test suite or linter is configured.
 
 The codebase is minimal — four Python modules under `src/openai_websearch_mcp/`:
 
-- **server.py** — Core logic. Defines a single `@mcp.tool()` function `openai_web_search()` that uses the Responses API (`client.responses.create()`) with the `web_search` tool for live web search and returns `response.output_text`. Handles model-specific reasoning effort defaults (low for gpt-5-mini, medium for others). Only adds `reasoning` params for models in the `reasoning_models` list.
+- **server.py** — Core logic. Defines a single `@mcp.tool()` function `openai_web_search()` that uses the Responses API (`client.responses.create()`) with the `web_search` tool for live web search and returns `response.output_text`. Handles reasoning effort defaults (medium by default). Only adds `reasoning` params for models in the `reasoning_models` list.
 - **cli.py** — Typer CLI for automated installation into Claude Desktop. Validates API keys against OpenAI's API, detects config paths cross-platform, and writes `claude_desktop_config.json`.
 - **__init__.py** — Exports `main()` which starts the FastMCP server via `mcp.run()`.
 - **__main__.py** — Module entry point (`python -m` support).
@@ -36,6 +36,6 @@ The codebase is minimal — four Python modules under `src/openai_websearch_mcp/
 - **Python**: >=3.10
 - **API**: OpenAI Responses API (`client.responses.create()`) with `web_search` tool (GA)
 - **Entry points** (defined in `pyproject.toml`): `openai-websearch-mcp` (server), `openai-websearch-mcp-install` (CLI installer)
-- **Environment variables**: `OPENAI_API_KEY` (required), `OPENAI_DEFAULT_MODEL` (optional, defaults to first allowed model), `OPENAI_MODELS` (optional, comma-separated allowed models), `OPENAI_REASONING_MODELS` (optional, comma-separated reasoning models), `OPENAI_REASONING_EFFORT` (optional, overrides reasoning effort for all requests), `OPENAI_SEARCH_CONTEXT_SIZE` (optional, overrides search context size for all requests)
-- **Supported models**: gpt-4o, gpt-4o-mini (no reasoning); gpt-5, gpt-5-mini, gpt-5-nano, o3, o4-mini (with reasoning)
+- **Environment variables**: `OPENAI_API_KEY` (required), `OPENAI_DEFAULT_MODEL` (optional, defaults to `gpt-5.2`), `OPENAI_MODELS` (optional, comma-separated allowed models), `OPENAI_REASONING_MODELS` (optional, comma-separated reasoning models), `OPENAI_REASONING_EFFORT` (optional, overrides reasoning effort for all requests), `OPENAI_SEARCH_CONTEXT_SIZE` (optional, overrides search context size for all requests)
+- **Default model**: gpt-5.2 (with reasoning). Additional models can be enabled via `OPENAI_MODELS` and `OPENAI_REASONING_MODELS` env vars.
 - **Pydantic v2** is used for data models — `UserLocation` uses `TimeZoneName` from `pydantic_extra_types`

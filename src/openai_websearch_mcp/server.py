@@ -12,8 +12,8 @@ mcp = FastMCP(
     instructions="This MCP server provides access to OpenAI's web search functionality through the Model Context Protocol."
 )
 
-DEFAULT_MODELS = ["gpt-4o", "gpt-4o-mini", "gpt-5", "gpt-5-mini", "gpt-5-nano", "o3", "o4-mini"]
-DEFAULT_REASONING_MODELS = ["gpt-5", "gpt-5-mini", "gpt-5-nano", "o3", "o4-mini"]
+DEFAULT_MODELS = ["gpt-5.2"]
+DEFAULT_REASONING_MODELS = ["gpt-5.2"]
 
 
 def _get_models() -> list[str]:
@@ -44,18 +44,17 @@ class UserLocation(BaseModel):
 
 Searches the web for real-time information using OpenAI's web search tool.
 
-For quick searches: Use 'gpt-5-mini' with reasoning_effort='low' for fast iterations.
-For deep research: Use 'gpt-5' with reasoning_effort='medium' or 'high'.
+Default model: gpt-5.2 (with reasoning support).
 The result includes live web data with sourced citations.
 
-Supports: gpt-4o, gpt-4o-mini (no reasoning), gpt-5/gpt-5-mini/gpt-5-nano, o3/o4-mini (with reasoning).""",
+Additional models can be enabled via the OPENAI_MODELS env var.""",
 )
 def openai_web_search(
     input: Annotated[str, Field(description="The search query or question to search for")],
     model: Annotated[Optional[str],
                      Field(description="AI model to use. Defaults to OPENAI_DEFAULT_MODEL env var or first allowed model")] = None,
     reasoning_effort: Annotated[Optional[Literal["low", "medium", "high", "minimal"]],
-                                Field(description="Reasoning effort level for supported models (gpt-5, o3, o4-mini). Default: low for gpt-5-mini, medium for others")] = None,
+                                Field(description="Reasoning effort level for supported models. Default: medium")] = None,
     search_context_size: Annotated[Literal["low", "medium", "high"],
                                    Field(description="Amount of web context to retrieve: low (fast), medium (balanced), high (comprehensive)")] = "medium",
     user_location: Annotated[Optional[UserLocation],
@@ -100,10 +99,7 @@ def openai_web_search(
     # Priority: env var override > per-request param > per-model default
     if model in reasoning_models:
         if reasoning_effort is None:
-            if model == "gpt-5-mini":
-                reasoning_effort = "low"
-            else:
-                reasoning_effort = "medium"
+            reasoning_effort = "medium"
         request_params["reasoning"] = {"effort": reasoning_effort}
 
     response = client.responses.create(**request_params)
