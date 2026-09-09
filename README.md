@@ -72,7 +72,13 @@ Add to your MCP settings in Cursor:
 
 ### Claude Code
 
-Claude Code automatically detects MCP servers configured for Claude Desktop. Use the same configuration as above for Claude Desktop.
+One command registers the server with both tools (`openai_web_search` and `openai_ask`). Replace `sk-...` with your API key:
+
+```bash
+claude mcp add openai-mcp -s user --env OPENAI_API_KEY="sk-..." --env OPENAI_MODELS="gpt-5.6-sol" --env OPENAI_DEFAULT_MODEL="gpt-5.6-sol" --env OPENAI_REASONING_MODELS="gpt-5.6-sol" --env OPENAI_REASONING_EFFORT="low" --env OPENAI_ASK_REASONING_EFFORT="medium" -- uv run --directory /Users/dev345/code/kfirfer/openai-websearch-mcp python -m openai_mcp
+```
+
+Add `--env OPENAI_BASE_URL="https://your-proxy/v1"` if you route through an OpenAI-compatible proxy. To use the published package instead of a local checkout, replace everything after `--` with `uvx openai-mcp`. Restart Claude Code afterwards.
 
 ### Local Development
 
