@@ -27,7 +27,7 @@ The codebase is minimal — four Python modules under `src/openai_websearch_mcp/
 
 - **server.py** — Core logic. Defines a single `@mcp.tool()` function `openai_web_search()` that uses the Responses API (`client.responses.create()`) with the `web_search` tool for live web search and returns `response.output_text`. Handles reasoning effort defaults (low by default). Only adds `reasoning` params for models in the `reasoning_models` list.
 - **cli.py** — Typer CLI for automated installation into Claude Desktop. Validates API keys against OpenAI's API, detects config paths cross-platform, and writes `claude_desktop_config.json`.
-- **__init__.py** — Exports `main()` which starts the FastMCP server via `mcp.run()`.
+- **__init__.py** — Exports `main()` which starts the MCPServer via `mcp.run()`.
 - **__main__.py** — Module entry point (`python -m` support).
 
 ## Key Details

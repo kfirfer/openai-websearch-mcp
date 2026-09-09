@@ -44,7 +44,7 @@ def update_claude_config(
     *,
     env_vars: Optional[Dict[str, str]] = None,
 ) -> bool:
-    """Add or update a FastMCP server in Claude's configuration.
+    """Add or update an MCP server in Claude's configuration.
     """
     config_dir = get_claude_config_path()
     if not config_dir:

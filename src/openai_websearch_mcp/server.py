@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 from typing import Literal, Optional, Annotated
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 from openai import OpenAI
 from pydantic_extra_types.timezone_name import TimeZoneName
 import os
 
-mcp = FastMCP(
+mcp = MCPServer(
     name="OpenAI Web Search",
     instructions="This MCP server provides access to OpenAI's web search functionality through the Model Context Protocol."
 )
