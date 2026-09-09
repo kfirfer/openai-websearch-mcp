@@ -9,7 +9,7 @@ An advanced MCP server that provides intelligent web search capabilities using O
 
 ## ✨ Features
 
-- **🧠 Reasoning Model Support**: Full compatibility with OpenAI's latest reasoning models (default: gpt-5.2)
+- **🧠 Reasoning Model Support**: Full compatibility with OpenAI's latest reasoning models (default: gpt-5.6-sol)
 - **⚡ Smart Effort Control**: Intelligent `reasoning_effort` defaults based on use case
 - **🔄 Multi-Mode Search**: Fast iterations with gpt-5-mini or deep research with gpt-5
 - **🌍 Localized Results**: Support for location-based search customization
@@ -40,7 +40,7 @@ Add to your `claude_desktop_config.json`:
       "args": ["openai-websearch-mcp"],
       "env": {
         "OPENAI_API_KEY": "your-api-key-here",
-        "OPENAI_DEFAULT_MODEL": "gpt-5.2"
+        "OPENAI_DEFAULT_MODEL": "gpt-5.6-sol"
       }
     }
   }
@@ -63,7 +63,7 @@ Add to your MCP settings in Cursor:
       "args": ["openai-websearch-mcp"],
       "env": {
         "OPENAI_API_KEY": "your-api-key-here",
-        "OPENAI_DEFAULT_MODEL": "gpt-5.2"
+        "OPENAI_DEFAULT_MODEL": "gpt-5.6-sol"
       }
     }
   }
@@ -86,7 +86,7 @@ For local testing, use the absolute path to your virtual environment:
       "args": ["-m", "openai_websearch_mcp"],
       "env": {
         "OPENAI_API_KEY": "your-api-key-here",
-        "OPENAI_DEFAULT_MODEL": "gpt-5.2",
+        "OPENAI_DEFAULT_MODEL": "gpt-5.6-sol",
         "PYTHONPATH": "/path/to/your/project/src"
       }
     }
@@ -105,7 +105,7 @@ Intelligent web search with reasoning model support.
 | Parameter | Type | Description | Default |
 |-----------|------|-------------|---------|
 | `input` | `string` | The search query or question to search for | *Required* |
-| `model` | `string` | AI model to use. Default: gpt-5.2. Additional models can be enabled via `OPENAI_MODELS` env var | `gpt-5.2` (or `OPENAI_DEFAULT_MODEL`) |
+| `model` | `string` | AI model to use. Default: gpt-5.6-sol. Additional models can be enabled via `OPENAI_MODELS` env var | `gpt-5.6-sol` (or `OPENAI_DEFAULT_MODEL`) |
 | `reasoning_effort` | `string` | Reasoning effort level: low, medium, high | `low` |
 | `search_context_size` | `string` | Web context amount: low, medium, high | `medium` |
 | `user_location` | `object` | Optional location for localized results | `null` |
@@ -129,7 +129,7 @@ The AI assistant will automatically use the `openai_web_search` tool with approp
 
 ### Default Model
 
-- **`gpt-5.2`** with `reasoning_effort: "low"` (default)
+- **`gpt-5.6-sol`** with `reasoning_effort: "low"` (default)
 - Supports reasoning effort levels: `low`, `medium`, `high`
 - Additional models can be enabled via the `OPENAI_MODELS` and `OPENAI_REASONING_MODELS` env vars
 - To disable reasoning entirely, set `OPENAI_REASONING_MODELS=""` (empty string)
@@ -191,7 +191,7 @@ uv pip install -e .
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `OPENAI_API_KEY` | Your OpenAI API key | *Required* |
-| `OPENAI_DEFAULT_MODEL` | Default model to use | First allowed model (`gpt-5.2`) |
+| `OPENAI_DEFAULT_MODEL` | Default model to use | First allowed model (`gpt-5.6-sol`) |
 | `OPENAI_MODELS` | Comma-separated list of allowed models | See DEFAULT_MODELS |
 | `OPENAI_REASONING_MODELS` | Comma-separated list of reasoning models. Set to empty string (`""`) to disable reasoning entirely | See DEFAULT_REASONING_MODELS |
 | `OPENAI_REASONING_EFFORT` | Override reasoning effort for all requests (`low`, `medium`, `high`). Only applies if the model is in the reasoning models list | `low` |

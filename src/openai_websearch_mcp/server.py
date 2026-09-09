@@ -12,8 +12,8 @@ mcp = FastMCP(
     instructions="This MCP server provides access to OpenAI's web search functionality through the Model Context Protocol."
 )
 
-DEFAULT_MODELS = ["gpt-5.2"]
-DEFAULT_REASONING_MODELS = ["gpt-5.2"]
+DEFAULT_MODELS = ["gpt-5.6-sol"]
+DEFAULT_REASONING_MODELS = ["gpt-5.6-sol"]
 
 
 def _get_models() -> list[str]:
@@ -44,7 +44,7 @@ class UserLocation(BaseModel):
 
 Searches the web for real-time information using OpenAI's web search tool.
 
-Default model: gpt-5.2 (with reasoning support).
+Default model: gpt-5.6-sol (with reasoning support).
 The result includes live web data with sourced citations.
 
 Additional models can be enabled via the OPENAI_MODELS env var.""",
