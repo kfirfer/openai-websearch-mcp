@@ -1,5 +1,5 @@
 [project]
-name = "openai-websearch-mcp"
+name = "openai-mcp"
 version = "0.6.0"
 description = "OpenAI web search and brainstorming with reasoning models as MCP server"
 readme = "README.md"
@@ -15,8 +15,8 @@ dependencies = [
 
 
 [project.scripts]
-openai-websearch-mcp = "openai_websearch_mcp:main"
-openai-websearch-mcp-install = "openai_websearch_mcp.cli:app"
+openai-mcp = "openai_mcp:main"
+openai-mcp-install = "openai_mcp.cli:app"
 
 
 [build-system]

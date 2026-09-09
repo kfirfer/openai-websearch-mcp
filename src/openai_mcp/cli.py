@@ -15,8 +15,8 @@ from openai import OpenAI
 logger = logging.getLogger(__file__)
 
 app = typer.Typer(
-    name="openapi-websearch-mcp",
-    help="openapi-websearch-mcp install tools",
+    name="openai-mcp",
+    help="openai-mcp install tools",
     add_completion=False,
     no_args_is_help=True,  # Show help if no args provided
 )
@@ -117,7 +117,7 @@ def install() -> None:
     """Install a current server in the Claude desktop app.
     """
 
-    name = "openai-websearch-mcp"
+    name = "openai-mcp"
 
     env_dict = {}
     local_bin = Path(Path.home(), ".local", "bin")

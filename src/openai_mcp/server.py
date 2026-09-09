@@ -8,7 +8,7 @@ from pydantic_extra_types.timezone_name import TimeZoneName
 import os
 
 mcp = MCPServer(
-    name="OpenAI Web Search",
+    name="OpenAI",
     instructions="This MCP server provides access to OpenAI's web search and brainstorming tools through the Model Context Protocol."
 )
 

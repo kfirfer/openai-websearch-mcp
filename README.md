@@ -1,6 +1,6 @@
-# OpenAI WebSearch MCP Server 🔍
+# OpenAI MCP Server 🔍
 
-[![PyPI version](https://badge.fury.io/py/openai-websearch-mcp.svg)](https://badge.fury.io/py/openai-websearch-mcp)
+[![PyPI version](https://badge.fury.io/py/openai-mcp.svg)](https://badge.fury.io/py/openai-mcp)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -21,7 +21,7 @@ An advanced MCP server that provides intelligent web search capabilities using O
 ### One-Click Installation for Claude Desktop
 
 ```bash
-OPENAI_API_KEY=sk-xxxx uvx --with openai-websearch-mcp openai-websearch-mcp-install
+OPENAI_API_KEY=sk-xxxx uvx --with openai-mcp openai-mcp-install
 ```
 
 Replace `sk-xxxx` with your OpenAI API key from the [OpenAI Platform](https://platform.openai.com/).
@@ -35,9 +35,9 @@ Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "openai-websearch-mcp": {
+    "openai-mcp": {
       "command": "uvx",
-      "args": ["openai-websearch-mcp"],
+      "args": ["openai-mcp"],
       "env": {
         "OPENAI_API_KEY": "your-api-key-here",
         "OPENAI_DEFAULT_MODEL": "gpt-5.6-sol"
@@ -58,9 +58,9 @@ Add to your MCP settings in Cursor:
 ```json
 {
   "mcpServers": {
-    "openai-websearch-mcp": {
+    "openai-mcp": {
       "command": "uvx",
-      "args": ["openai-websearch-mcp"],
+      "args": ["openai-mcp"],
       "env": {
         "OPENAI_API_KEY": "your-api-key-here",
         "OPENAI_DEFAULT_MODEL": "gpt-5.6-sol"
@@ -81,9 +81,9 @@ For local testing, use the absolute path to your virtual environment:
 ```json
 {
   "mcpServers": {
-    "openai-websearch-mcp": {
+    "openai-mcp": {
       "command": "/path/to/your/project/.venv/bin/python",
-      "args": ["-m", "openai_websearch_mcp"],
+      "args": ["-m", "openai_mcp"],
       "env": {
         "OPENAI_API_KEY": "your-api-key-here",
         "OPENAI_DEFAULT_MODEL": "gpt-5.6-sol",
@@ -156,34 +156,34 @@ The AI assistant will automatically use the `openai_web_search` or `openai_ask` 
 
 ```bash
 # Install and run directly
-uvx openai-websearch-mcp
+uvx openai-mcp
 
 # Or install globally
-uvx install openai-websearch-mcp
+uvx install openai-mcp
 ```
 
 ### Using pip
 
 ```bash
 # Install from PyPI
-pip install openai-websearch-mcp
+pip install openai-mcp
 
 # Run the server
-python -m openai_websearch_mcp
+python -m openai_mcp
 ```
 
 ### From Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/openai-websearch-mcp.git
-cd openai-websearch-mcp
+git clone https://github.com/yourusername/openai-mcp.git
+cd openai-mcp
 
 # Install dependencies
 uv sync
 
 # Run in development mode
-uv run python -m openai_websearch_mcp
+uv run python -m openai_mcp
 ```
 
 ## 👩‍💻 Development
@@ -192,8 +192,8 @@ uv run python -m openai_websearch_mcp
 
 ```bash
 # Clone and setup
-git clone https://github.com/yourusername/openai-websearch-mcp.git
-cd openai-websearch-mcp
+git clone https://github.com/yourusername/openai-mcp.git
+cd openai-mcp
 
 # Create virtual environment and install dependencies
 uv sync
@@ -223,10 +223,10 @@ uv run pytest
 
 ```bash
 # For uvx installations
-npx @modelcontextprotocol/inspector uvx openai-websearch-mcp
+npx @modelcontextprotocol/inspector uvx openai-mcp
 
 # For pip installations
-npx @modelcontextprotocol/inspector python -m openai_websearch_mcp
+npx @modelcontextprotocol/inspector python -m openai_mcp
 ```
 
 ### Common Issues
@@ -234,7 +234,7 @@ npx @modelcontextprotocol/inspector python -m openai_websearch_mcp
 **Issue**: "Unsupported parameter: 'reasoning.effort'"
 **Solution**: This occurs when using non-reasoning models (gpt-4o, gpt-4o-mini) with reasoning_effort parameter. The server automatically handles this by only applying reasoning parameters to compatible models.
 
-**Issue**: "No module named 'openai_websearch_mcp'"
+**Issue**: "No module named 'openai_mcp'"
 **Solution**: Ensure you've installed the package correctly and your Python path includes the package location.
 
 ## 🔄 Changelog

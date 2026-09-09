@@ -1,6 +1,6 @@
 import pytest
 
-from openai_websearch_mcp import server
+from openai_mcp import server
 
 
 class _FakeResponses:
