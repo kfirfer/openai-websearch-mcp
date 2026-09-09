@@ -3,7 +3,8 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 from typing import Literal, Optional, Annotated
 from mcp.server.mcpserver import MCPServer
-from openai import OpenAI
+from mcp.server.mcpserver.exceptions import ToolError
+from openai import OpenAI, OpenAIError
 from pydantic_extra_types.timezone_name import TimeZoneName
 import os
 
@@ -85,8 +86,18 @@ def _web_search_tool(search_context_size: str, user_location: Optional["UserLoca
 
 
 def _create_response(**request_params) -> str:
+    """Call the Responses API.
+
+    API failures are re-raised as ToolError so the message reaches the model.
+    The MCP SDK treats any other exception as a crash and hides its text.
+    """
     client = OpenAI()
-    response = client.responses.create(**request_params)
+    try:
+        response = client.responses.create(**request_params)
+    except OpenAIError as exc:
+        status = getattr(exc, "status_code", None)
+        prefix = f"OpenAI API error {status}" if status else "OpenAI API error"
+        raise ToolError(f"{prefix}: {exc}") from exc
     return response.output_text
 
 

@@ -124,3 +124,43 @@ def test_ask_uses_default_model_env_var(calls, monkeypatch):
     monkeypatch.setenv("OPENAI_DEFAULT_MODEL", "gpt-5.6-terra")
     server.openai_ask(input="x")
     assert calls[0]["model"] == "gpt-5.6-terra"
+
+
+# --- error surfacing: API failures must reach the model as ToolError text ---
+
+class _FailingOpenAI:
+    def __init__(self, *args, **kwargs):
+        import httpx2 as httpx
+        import openai
+
+        class _R:
+            def create(self, **kwargs):
+                request = httpx.Request("POST", "https://api.openai.com/v1/responses")
+                response = httpx.Response(401, request=request, json={"error": {"message": "Incorrect API key provided"}})
+                raise openai.AuthenticationError("Incorrect API key provided", response=response, body=None)
+
+        self.responses = _R()
+
+
+@pytest.fixture
+def failing_client(monkeypatch):
+    monkeypatch.setattr(server, "OpenAI", _FailingOpenAI)
+    for var in ("OPENAI_MODELS", "OPENAI_DEFAULT_MODEL", "OPENAI_REASONING_MODELS"):
+        monkeypatch.delenv(var, raising=False)
+
+
+def test_web_search_api_error_is_raised_as_tool_error_with_message(failing_client):
+    from mcp.server.mcpserver.exceptions import ToolError
+
+    with pytest.raises(ToolError) as exc_info:
+        server.openai_web_search(input="hello")
+    assert "Incorrect API key provided" in str(exc_info.value)
+    assert "401" in str(exc_info.value)
+
+
+def test_ask_api_error_is_raised_as_tool_error_with_message(failing_client):
+    from mcp.server.mcpserver.exceptions import ToolError
+
+    with pytest.raises(ToolError) as exc_info:
+        server.openai_ask(input="hello")
+    assert "Incorrect API key provided" in str(exc_info.value)
