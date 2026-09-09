@@ -1,7 +1,7 @@
 [project]
 name = "openai-websearch-mcp"
-version = "0.5.0"
-description = "OpenAI web search with reasoning models as MCP server"
+version = "0.6.0"
+description = "OpenAI web search and brainstorming with reasoning models as MCP server"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

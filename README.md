@@ -110,6 +110,19 @@ Intelligent web search with reasoning model support.
 | `search_context_size` | `string` | Web context amount: low, medium, high | `medium` |
 | `user_location` | `object` | Optional location for localized results | `null` |
 
+### `openai_ask`
+
+Brainstorming partner backed by an OpenAI reasoning model. It explores an idea from several angles, lays out distinct options with trade-offs, challenges assumptions, surfaces risks and open questions, and ends with a recommendation. The model has web search available and decides on its own whether to use it.
+
+#### Parameters
+
+| Parameter | Type | Description | Default |
+|-----------|------|-------------|---------|
+| `input` | `string` | The idea, question, or problem to brainstorm | *Required* |
+| `context` | `string` | Optional background: constraints, existing code, prior findings | `null` |
+| `model` | `string` | AI model to use. Same allowlist as `openai_web_search` | `gpt-5.6-sol` (or `OPENAI_DEFAULT_MODEL`) |
+| `reasoning_effort` | `string` | Reasoning effort level: low, medium, high | `medium` |
+
 ## 💬 Usage Examples
 
 Once configured, simply ask your AI assistant to search for information using natural language:
@@ -123,7 +136,10 @@ Once configured, simply ask your AI assistant to search for information using na
 ### Localized Search
 > "Search for local tech meetups in San Francisco this week using openai_web_search"
 
-The AI assistant will automatically use the `openai_web_search` tool with appropriate parameters based on your request.
+### Brainstorming
+> "Use openai_ask to brainstorm ways to structure the caching layer, given that we can't add Redis"
+
+The AI assistant will automatically use the `openai_web_search` or `openai_ask` tool with appropriate parameters based on your request.
 
 ## 🤖 Model Selection Guide
 
@@ -184,6 +200,9 @@ uv sync
 
 # Install in development mode
 uv pip install -e .
+
+# Run the tests
+uv run pytest
 ```
 
 ### Environment Variables
@@ -194,7 +213,8 @@ uv pip install -e .
 | `OPENAI_DEFAULT_MODEL` | Default model to use | First allowed model (`gpt-5.6-sol`) |
 | `OPENAI_MODELS` | Comma-separated list of allowed models | See DEFAULT_MODELS |
 | `OPENAI_REASONING_MODELS` | Comma-separated list of reasoning models. Set to empty string (`""`) to disable reasoning entirely | See DEFAULT_REASONING_MODELS |
-| `OPENAI_REASONING_EFFORT` | Override reasoning effort for all requests (`low`, `medium`, `high`). Only applies if the model is in the reasoning models list | `low` |
+| `OPENAI_REASONING_EFFORT` | Override reasoning effort for `openai_web_search` requests (`low`, `medium`, `high`). Only applies if the model is in the reasoning models list | `low` |
+| `OPENAI_ASK_REASONING_EFFORT` | Override reasoning effort for `openai_ask` requests (`low`, `medium`, `high`). Only applies if the model is in the reasoning models list | `medium` |
 | `OPENAI_SEARCH_CONTEXT_SIZE` | Override search context size for all requests (`low`, `medium`, `high`) | `medium` |
 
 ## 🐛 Debugging
@@ -218,6 +238,13 @@ npx @modelcontextprotocol/inspector python -m openai_websearch_mcp
 **Solution**: Ensure you've installed the package correctly and your Python path includes the package location.
 
 ## 🔄 Changelog
+
+### v0.6.0
+
+- **New `openai_ask` tool** — a brainstorming partner that explores options, trade-offs, risks, and ends with a recommendation. Defaults to `medium` reasoning effort; override with `OPENAI_ASK_REASONING_EFFORT`
+- **Default model is now `gpt-5.6-sol`**
+- **Upgraded dependencies** — MCP Python SDK 2.x (`MCPServer`), OpenAI SDK 3.x
+- **Added test suite** — `uv run pytest`
 
 ### v0.5.0
 
